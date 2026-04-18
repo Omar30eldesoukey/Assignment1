@@ -38,6 +38,8 @@ def extract_pdf_elements(pdf_path: Path, image_output_dir: Path) -> list[ChunkRe
             try:
                 plumber_page = plumber_doc.pages[page_idx - 1]
                 tables = plumber_page.extract_tables() or []
+            except KeyboardInterrupt:
+                tables = []
             except Exception:  # noqa: BLE001
                 tables = []
             for table_idx, table in enumerate(tables, start=1):
@@ -64,7 +66,12 @@ def extract_pdf_elements(pdf_path: Path, image_output_dir: Path) -> list[ChunkRe
 
             for image_idx, image_info in enumerate(page.get_images(full=True), start=1):
                 xref = image_info[0]
-                image_dict = doc.extract_image(xref)
+                try:
+                    image_dict = doc.extract_image(xref)
+                except KeyboardInterrupt:
+                    continue
+                except Exception:  # noqa: BLE001
+                    continue
                 if not image_dict:
                     continue
                 ext = image_dict.get("ext", "png")
