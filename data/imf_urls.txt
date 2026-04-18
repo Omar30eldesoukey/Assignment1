@@ -1,0 +1,4 @@
+# Put one direct PDF URL per line.
+# Example placeholders (replace with real IMF/WorldBank/OECD report PDF links):
+# https://example.org/report1.pdf
+# https://example.org/report2.pdf

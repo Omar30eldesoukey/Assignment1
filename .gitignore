@@ -1,0 +1,41 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editor settings
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build / runtime caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.streamlit/
+
+# Large local archives
+archive.zip
+
+# Generated or large project data
+data/index/
+data/processed/
+data/raw/
+
+# Keep URL seed files or docs if present
+!data/imf_urls.txt
+!data/raw/
+!data/raw/Pdf/
+data/raw/Pdf/*
+!data/raw/Pdf/README.txt
+!data/raw/Pdf/lcwa_gov_pdf_metadata.csv

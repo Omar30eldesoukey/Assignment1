@@ -1,0 +1,17 @@
+[
+  {
+    "id": "q_text_1",
+    "question": "What is the overall growth outlook discussed in the report?",
+    "expected_modality": "text"
+  },
+  {
+    "id": "q_table_1",
+    "question": "Which table reports inflation values and what trend does it show?",
+    "expected_modality": "table"
+  },
+  {
+    "id": "q_chart_1",
+    "question": "What does the main chart or figure indicate about debt or fiscal balance?",
+    "expected_modality": "image"
+  }
+]
