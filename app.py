@@ -48,7 +48,7 @@ question = st.text_input("Ask a question about your reports")
 
 if question:
     with st.spinner("Retrieving evidence..."):
-        results = retrieve(question=question, embedder=embedder, index=index, chunks=chunks, top_k=top_k)
+        results = retrieve(query=question, embedder=embedder, index=index, chunks=chunks, top_k=top_k)
 
     with st.spinner("Generating answer..."):
         answer = answer_with_context(question=question, retrieved=results, model=model_name)

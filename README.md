@@ -54,6 +54,27 @@ Ask questions in the UI and review citations under "Top Retrieved Evidence".
 python scripts/run_evaluation.py --index-dir data/index --benchmark evaluation/benchmark_queries.json --top-k 6
 ```
 
+## 6) Run all steps with one command (Windows PowerShell)
+
+From the project root:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/run_all.ps1
+```
+
+Useful options:
+
+```powershell
+# Fast smoke test over a smaller subset
+powershell -ExecutionPolicy Bypass -File scripts/run_all.ps1 -MaxPdfs 5
+
+# Skip pip install if already installed
+powershell -ExecutionPolicy Bypass -File scripts/run_all.ps1 -SkipInstall
+
+# Run build + evaluation only (no Streamlit launch)
+powershell -ExecutionPolicy Bypass -File scripts/run_all.ps1 -NoApp
+```
+
 ## Notes
 - For fully generative answers, set environment variable `OPENAI_API_KEY`.
 - Without API key, app falls back to extractive evidence snippets with citations.
