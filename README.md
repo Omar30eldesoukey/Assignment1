@@ -76,6 +76,7 @@ powershell -ExecutionPolicy Bypass -File scripts/run_all.ps1 -NoApp
 ```
 
 ## Notes
-- For fully generative answers, set environment variable `OPENAI_API_KEY`.
+- You can provide `OPENAI_API_KEY` as an environment variable, or paste it directly into the Streamlit sidebar (temporary for current session).
 - Without API key, app falls back to extractive evidence snippets with citations.
+- Repeated questions can reuse cached answers (stored at `data/cache/qa_cache.jsonl`) when cache is enabled in the sidebar.
 - You can adapt `evaluation/benchmark_queries.json` to your own benchmark questions.

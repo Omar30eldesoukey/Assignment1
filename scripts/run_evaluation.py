@@ -15,10 +15,13 @@ from src.retriever import retrieve
 
 
 def run_eval(index_dir: Path, benchmark_file: Path, top_k: int = 6) -> None:
+    print("Loading CLIP embedder for evaluation...", flush=True)
     embedder = UnifiedClipEmbedder()
+    print("Loading index and chunk store...", flush=True)
     index = load_index(index_dir)
     chunks = load_chunk_store(index_dir)
 
+    print(f"Reading benchmark queries from: {benchmark_file}", flush=True)
     benchmarks = json.loads(benchmark_file.read_text(encoding="utf-8"))
     if not benchmarks:
         print("No benchmark queries found.")

@@ -1,10 +1,18 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import numpy as np
 import torch
 from PIL import Image
+
+# Keep transformers on the PyTorch code path in mixed Python environments.
+os.environ.setdefault("TRANSFORMERS_NO_TF", "1")
+os.environ.setdefault("TRANSFORMERS_NO_FLAX", "1")
+os.environ.setdefault("USE_TF", "0")
+os.environ.setdefault("USE_FLAX", "0")
+
 from transformers import CLIPModel, CLIPProcessor
 
 
@@ -21,6 +29,13 @@ class UnifiedClipEmbedder:
         inputs = self.processor(text=texts, return_tensors="pt", padding=True, truncation=True)
         inputs = {k: v.to(self.device) for k, v in inputs.items()}
         features = self.model.get_text_features(**inputs)
+        if not isinstance(features, torch.Tensor):
+            if hasattr(features, "pooler_output"):
+                features = features.pooler_output
+            elif hasattr(features, "last_hidden_state"):
+                features = features.last_hidden_state[:, 0, :]
+            else:
+                raise TypeError("Unexpected text embedding output type from CLIP model.")
         features = features / features.norm(dim=-1, keepdim=True)
         return features.detach().cpu().numpy().astype(np.float32)
 
@@ -37,5 +52,12 @@ class UnifiedClipEmbedder:
         inputs = self.processor(images=images, return_tensors="pt", padding=True)
         inputs = {k: v.to(self.device) for k, v in inputs.items()}
         features = self.model.get_image_features(**inputs)
+        if not isinstance(features, torch.Tensor):
+            if hasattr(features, "pooler_output"):
+                features = features.pooler_output
+            elif hasattr(features, "last_hidden_state"):
+                features = features.last_hidden_state[:, 0, :]
+            else:
+                raise TypeError("Unexpected image embedding output type from CLIP model.")
         features = features / features.norm(dim=-1, keepdim=True)
         return features.detach().cpu().numpy().astype(np.float32)

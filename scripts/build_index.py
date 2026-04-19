@@ -45,6 +45,7 @@ def build_index(raw_pdf_dir: Path, image_dir: Path, index_dir: Path, max_pdfs: i
         print("This usually means PDFs are image-only scans or extraction failed.")
         return
 
+    print("Initializing CLIP embedder (first run may download model files)...", flush=True)
     embedder = UnifiedClipEmbedder()
 
     text_like = [c for c in chunked if c.modality in {"text", "table", "image"}]
@@ -52,7 +53,9 @@ def build_index(raw_pdf_dir: Path, image_dir: Path, index_dir: Path, max_pdfs: i
         print("No indexable chunks found after filtering modalities.")
         return
 
+    print(f"Embedding {len(text_like)} chunks...", flush=True)
     text_embeddings = embedder.embed_texts([c.text for c in text_like])
+    print("Embedding complete.", flush=True)
 
     if len(text_like) != text_embeddings.shape[0]:
         raise RuntimeError("Embedding count mismatch.")
